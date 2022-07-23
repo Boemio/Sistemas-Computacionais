@@ -551,20 +551,29 @@ loop:
 						IncPC = 1;
 						state=STATE_FETCH;
 					}
-					
-					state=STATE_FETCH;
 					// -----------------------------
 					break;
 
 				case PUSH:
-					
+					selM1 = sSP;
+					RW = 1;
+					if(pega_pedaco(IR, 6, 6) == 0)
+					{
+						selM3 = rx;
+					}
+					else
+					{
+						selM3 = *FR;
+					}
+					selM5 = sM3;
+					DecSP = 1;
 					// -----------------------------
 					state=STATE_FETCH;
 					break;
 
 				case POP:
 					//SP++;
-					
+					IncSP = 1;
 					// -----------------------------
 					state=STATE_EXECUTE;
 					break;
@@ -639,7 +648,18 @@ loop:
 					break; 
 
 				case POP:
-					
+					selM1 = sSP;
+					RW = 0;
+					if(pega_pedaco(IR, 6, 6) == 0)
+					{
+						selM2 = sDATA_OUT;
+						LoadReg[rx] = 1;
+					}
+					else
+					{
+						selM6 = sDATA_OUT;
+						LoadFR = 1;
+					}
 					// -----------------------------
 					state=STATE_FETCH;
 					break; 
